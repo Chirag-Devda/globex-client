@@ -2,3 +2,7 @@
 
 1. **created frontend globex task plan which align with backend plan**
 2. **just setupt project with vite and tailwind.css**
+
+**31-1-2025**
+
+1. **connected with remote repo globex-client and created development branch**

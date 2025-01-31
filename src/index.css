@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #3b82f6; /*Primary action color*/
+  --color-secondary: #9333ea; /*Secondary action color*/
+  --color-accent: #f97316; /* Accent color*/
+  --color-background: #f9fafb; /*Light background color*/
+  --color-button: #16a34a; /* Button color*/
+  --color-text: #111827; /*Primary text color*/
+  --color-cardBg: #ffffff; /*Card background color*/
+  --color-footerBg: #1f2937; /*Footer background color*/
+  --color-grayText: #6b7280; /* Gray text*/
+  --color-grayBorder: #e5e7eb; /*Gray border color*/
+
+  /* text */
+  --text-basic: 16px;
+}
