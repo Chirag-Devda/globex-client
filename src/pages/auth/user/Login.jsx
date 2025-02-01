@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FiAlertCircle } from "react-icons/fi"; // Import warning icon
 
-const UserRegister = () => {
+const UserLogin = () => {
   const {
     register,
     handleSubmit,
@@ -20,40 +20,11 @@ const UserRegister = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col space-y-4"
         >
-          {/* Full Name Field */}
-          <div>
+          {/* Email feild */}
+          <div className="flex flex-col">
             <div className="flex items-center justify-between mb-1">
-              <label htmlFor="fullname" className="font-medium">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              {errors.fullname && (
-                <span className="flex items-center text-red-600 text-sm ml-2">
-                  <FiAlertCircle className="mr-1" />
-                  {errors.fullname.message}
-                </span>
-              )}
-            </div>
-            <input
-              type="text"
-              {...register("fullname", {
-                required: "Required",
-                minLength: { value: 3, message: "Min 3 chars" },
-                maxLength: { value: 25, message: "Max 25 chars" },
-              })}
-              placeholder="Enter your full name"
-              className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                errors.fullname
-                  ? "border-red-500 focus:ring-red-400"
-                  : "border-gray-300 focus:ring-primary"
-              }`}
-            />
-          </div>
-
-          {/* Email Field */}
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label htmlFor="email" className="font-medium">
-                Email <span className="text-red-500">*</span>
+              <label className="font-medium" htmlFor="email">
+                Email <span className="text-red-500"> *</span>
               </label>
               {errors.email && (
                 <span className="flex items-center text-red-600 text-sm ml-2">
@@ -64,44 +35,40 @@ const UserRegister = () => {
             </div>
             <input
               type="email"
-              {...register("email", {
-                required: "Required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email",
-                },
-              })}
-              placeholder="Enter your email"
+              {...register("email", { required: "Required" })}
               className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition-all ${
                 errors.email
                   ? "border-red-500 focus:ring-red-400"
                   : "border-gray-300 focus:ring-primary"
               }`}
+              placeholder="Enter your email"
             />
           </div>
 
-          {/* Password Field */}
-          <div>
+          {/* Password feild */}
+          <div className="flex flex-col">
             <div className="flex items-center justify-between mb-1">
-              <label htmlFor="password" className="font-medium">
+              <label className="font-medium" htmlFor="password">
                 Password <span className="text-red-500">*</span>
               </label>
               {errors.password && (
                 <span className="flex items-center text-red-600 text-sm ml-2">
-                  <FiAlertCircle className="mr-1" />
+                  <FiAlertCircle className="text-red-500 mr-1" />
                   {errors.password.message}
                 </span>
               )}
             </div>
             <input
               type="password"
-              id="new-password"
+              name="password"
+              id="password"
+              placeholder="Enter your password"
+              autoComplete="new-password"
               {...register("password", {
                 required: "Required",
                 minLength: { value: 6, message: "Min 6 chars" },
                 maxLength: { value: 10, message: "Max 10 chars" },
               })}
-              placeholder="Enter your password"
               className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition-all ${
                 errors.password
                   ? "border-red-500 focus:ring-red-400"
@@ -109,23 +76,22 @@ const UserRegister = () => {
               }`}
             />
           </div>
-
           {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-green-500 text-white p-3 rounded-lg font-semibold hover:bg-green-600 transition-all"
           >
-            Register
+            Login
           </button>
 
           {/* Login Link */}
           <p className="text-center text-gray-600">
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
-              to="/user/login"
+              to="/user/register"
               className="text-primary font-medium hover:underline"
             >
-              Login
+              Register
             </Link>
           </p>
         </form>
@@ -134,4 +100,4 @@ const UserRegister = () => {
   );
 };
 
-export default UserRegister;
+export default UserLogin;
