@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FiAlertCircle } from "react-icons/fi"; // Import warning icon
+import { RegisterUser } from "../../../api/query/UserApi";
 
 const UserRegister = () => {
   const {
@@ -10,7 +11,14 @@ const UserRegister = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await RegisterUser(data);
+      console.log(response);
+    } catch (error) {
+      console.error("Sign-Up failed");
+    }
+  };
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center">
