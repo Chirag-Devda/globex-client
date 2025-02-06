@@ -21,9 +21,9 @@ export const LoginUser = async (userData) => {
     return response.data;
   } catch (error) {
     console.error(
-      "Sign-Up Failed:",
+      "Login Failed:",
       error.response?.data?.message || error.message
     );
-    throw new Error(error.response?.data?.message || "Sign-Up Failed");
+    throw new Error(error.response?.data?.message || "Login Failed");
   }
 };

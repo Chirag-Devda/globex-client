@@ -1,16 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #3b82f6; /*Primary action color*/
-  --color-secondary: #9333ea; /*Secondary action color*/
-  --color-accent: #f97316; /* Accent color*/
-  --color-background: #f9fafb; /*Light background color*/
-  --color-button: #16a34a; /* Button color*/
-  --color-text: #111827; /*Primary text color*/
-  --color-cardBg: #ffffff; /*Card background color*/
-  --color-footerBg: #1f2937; /*Footer background color*/
-  --color-grayText: #6b7280; /* Gray text*/
-  --color-grayBorder: #e5e7eb; /*Gray border color*/
+  --color-primary-bg: #f5eeea;
+  --color-secondary-text: #23243c;
+  --color-accent-color: #ccb1ab;
+  --color-nav-bg: #23243c;
+  --color-nav-border: #4b516b;
+  --color-hero-overlay: #000000;
+  --color-btn-bg: #ccb1ab;
+  --color-btn-hover: #ccb1ab;
+  --color-category-border: #9d8f9c;
+  --color-category-bg: #ffffff;
+  --color-product-border: #9d8f9c;
+  --color-footer-bg: #23243c;
+  --color-footer-text: #9d8f9c;
+
+  /* Text color */
+  ---color-fontColor-1: #ecd1c2;
+
+  /* new theme */
+  --color-cream-white: #f5eeea;
+  --color-dark-navy: #23243c;
+  --color-dark-grayish-blue: #4b516b;
+  --color-grayish-lavender: #9d8f9c;
+  --color-dusty-rose: #ccb1ab;
 
   /* text */
   --text-basic: 16px;
