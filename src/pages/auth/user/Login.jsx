@@ -48,6 +48,7 @@ const UserLogin = () => {
             label="Email"
             type="email"
             name="email"
+            autoComplete="on"
             register={register}
             errors={errors}
             placeholder="Enter your email"

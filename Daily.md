@@ -32,3 +32,12 @@
 
 1. **Updated Navbar Ui**
 2. **Created basic plan to update server from Separate Collections for Each Role for user/owner to Single Collection with Discriminators this will make easy Role-based access becomes simpler and scalable for user and owner and also add any new role easily**
+
+**7-2-2025 to 8-2-2-25**
+
+1. **Deciding the flow of Verifying and handling the user/owner token and Updating state**
+
+**10-2-2025**
+
+1. **Setup Redux toolkit for Global State Management**
+2. **Created APi request for /auth/me to always authenticating user token and updating state**
