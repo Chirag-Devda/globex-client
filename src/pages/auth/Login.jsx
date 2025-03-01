@@ -1,44 +1,58 @@
 // 1. React and Hooks
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 // 2. Third-party libraries
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 // 3. API functions
-import { LoginUser } from "../../../api/query/UserApi";
+import { LoginRequest } from "../../api/query/auth/authApi";
 
 // 4. Components
-import InputField from "../../../components/common/InputFeilds";
+import InputField from "../../components/common/InputFeilds";
+import { login } from "../../features/auth/authSlice";
 
-const UserLogin = () => {
+const Login = ({ role }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    toast.error("Please Login !");
+  }, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // Api Login Mutation
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["Login"],
-    mutationFn: LoginUser,
+  // Determine API function based on role
+  const loginMutation = useMutation({
+    mutationKey: [`Login-${role}`],
+    mutationFn: LoginRequest,
     onSuccess: (data) => {
-      console.log(data);
+      console.log(data.data[`${role}`]);
+      dispatch(login(data.data[`${role}`]));
       toast.success(data.message);
+      navigate("/");
     },
     onError: (error) => toast.error(error.message),
   });
 
   const onSubmit = async (data) => {
-    mutate(data);
+    loginMutation.mutate({ ...data, role });
   };
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center">
       <div className="form-container w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          {role === "owner" ? "Owner Login" : "User Login"}
+        </h1>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col space-y-4"
@@ -60,7 +74,6 @@ const UserLogin = () => {
               },
             }}
           />
-
           {/* Password Input */}
           <InputField
             label="Password"
@@ -76,21 +89,19 @@ const UserLogin = () => {
               maxLength: { value: 10, message: "Max 10 chars" },
             }}
           />
-
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-green-500 text-white p-3 rounded-lg font-semibold hover:bg-green-600 transition-all"
-            disabled={isPending}
+            className="w-full bg-green-500 text-white p-3 rounded-lg font-semibold hover:bg-green-600 transition-all cursor-pointer"
+            disabled={loginMutation.isPending}
           >
-            {isPending ? "Loging in..." : "Login"}
+            {loginMutation.isPending ? "Logging in..." : "Login"}
           </button>
-
           {/* Register Link */}
           <p className="text-center text-gray-600">
             Don't have an account?{" "}
             <Link
-              to="/user/register"
+              to={`/${role}/register`}
               className="text-primary font-medium hover:underline"
             >
               Register
@@ -102,4 +113,4 @@ const UserLogin = () => {
   );
 };
 
-export default UserLogin;
+export default Login;

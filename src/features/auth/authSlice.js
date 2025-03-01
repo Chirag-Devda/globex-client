@@ -1,41 +1,52 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loadUser } from "../../api/query/authApi";
+import { loadUser } from "../../api/query/auth/authApi";
 
 const initialState = {
-  user: null,
+  user: { role: "user" },
   loading: false,
   error: null,
 };
 
 // Create an async thunk to fetch user data
-export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
-  const userData = await loadUser();
-  return userData;
-});
+export const fetchUser = createAsyncThunk(
+  "user/fetchUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const userData = await loadUser();
+      return userData;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logoutUser: (state) => {
-      state.user = null; // Clear user data on logout
+    login: (state, action) => {
+      state.user = action.payload;
+    },
+    logout: (state) => {
+      state.user = { role: "user" };
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
       })
-      .addCase(fetchUser.rejected, (state) => {
+      .addCase(fetchUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = "Failed to fetch user data";
+        state.error = action.payload;
       });
   },
 });
 
-export const { logoutUser } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;

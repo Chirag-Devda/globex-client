@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaHeart,
   FaSearch,
@@ -9,9 +9,41 @@ import {
 import { HiDotsVertical } from "react-icons/hi";
 import { IoPersonSharp } from "react-icons/io5";
 import { PiGlobeLight } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import { LogoutRequest } from "../api/query/auth/authApi";
+import { logout } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".dropdown-container")) {
+        setDropdownVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Logout Function
+  const handleLogout = async () => {
+    try {
+      const response = await LogoutRequest();
+      if (response.success) {
+        dispatch(logout());
+        toast.success(response.message);
+      } else {
+        toast.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout Failed:", error);
+      toast.error("Something went wrong!");
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -55,7 +87,7 @@ const Navbar = () => {
           </li>
 
           {/* Dropdown */}
-          <li className="relative hover:cursor-pointer">
+          <li className="relative hover:cursor-pointer dropdown-container">
             <HiDotsVertical
               size={24}
               onClick={() => setDropdownVisible((prev) => !prev)}
@@ -66,27 +98,42 @@ const Navbar = () => {
                 <ul>
                   <li className="flex items-center px-4 py-4 hover:bg-gray-100 space-x-2">
                     <IoPersonSharp size={23} />
-                    <a href="/profile" title="Profile">
+                    <a className="w-full" href="/profile" title="Profile">
                       Profile
                     </a>
                   </li>
                   <li className="flex items-center px-4 py-4 hover:bg-gray-100 space-x-2">
                     <FaShoppingBag size={20} />
-                    <a href="/orders" title="Orders">
+                    <a className="w-full" href="/orders" title="Orders">
                       Orders
                     </a>
                   </li>
                   <li className="flex items-center px-4 py-4 hover:bg-gray-100 space-x-2">
                     <FaHeart size={20} />
-                    <a href="/wishlist" title="Wishlist">
+                    <a className="w-full" href="/wishlist" title="Wishlist">
                       Wishlist
                     </a>
                   </li>
                   <li className="flex items-center px-4 py-4 hover:bg-gray-100 space-x-2">
-                    <FaSignOutAlt size={20} />
-                    <a href="/logout" title="Logout">
-                      Logout
-                    </a>
+                    {user?.id ? (
+                      <>
+                        <FaSignOutAlt size={20} />
+                        <button
+                          onClick={handleLogout}
+                          className="w-full cursor-pointer text-left"
+                          title="Logout"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <FaSignOutAlt size={20} />
+                        <a className="w-full" href="/user/login" title="Login">
+                          Login
+                        </a>
+                      </>
+                    )}
                   </li>
                 </ul>
               </div>

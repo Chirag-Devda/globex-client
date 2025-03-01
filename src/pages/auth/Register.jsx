@@ -3,17 +3,19 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 // 2. Third-party libraries
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 // 3. API functions
-import { RegisterUser } from "../../../api/query/UserApi";
 
 // 4. Components
-import InputField from "../../../components/common/InputFeilds";
+import InputField from "../../components/common/InputFeilds";
+import { RegisterRequest } from "../../api/query/auth/authApi";
+import { useDispatch } from "react-redux";
+import { login } from "../../features/auth/authSlice";
 
-const UserRegister = () => {
+const RegisterForm = ({ role }) => {
   const {
     register,
     handleSubmit,
@@ -21,26 +23,33 @@ const UserRegister = () => {
     watch,
   } = useForm();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // Api Register Mutation
   const { mutate, isPending } = useMutation({
-    mutationKey: ["Register"],
-    mutationFn: RegisterUser,
+    mutationKey: [`Register-${role}`],
+    mutationFn: RegisterRequest,
     onSuccess: (data) => {
-      console.log("Response:", data);
+      console.log(data.data[`${role}`]);
+      dispatch(login(data.data[`${role}`]));
       toast.success(data.message);
+      navigate("/");
     },
     onError: (error) => toast.error(error.message),
   });
 
   const onSubmit = async (data) => {
     const { confirmPassword, ...userData } = data;
-    mutate(userData);
+    mutate({ ...userData, role });
   };
 
   return (
     <div className="bg-background min-h-screen flex items-center justify-center">
       <div className="form-container w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Register as {role === "owner" ? "Owner" : "User"}
+        </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col space-y-4"
@@ -120,7 +129,7 @@ const UserRegister = () => {
           <p className="text-center text-gray-600">
             Already have an account?{" "}
             <Link
-              to="/user/login"
+              to={`/${role}/login`}
               className="text-primary font-medium hover:underline"
             >
               Login
@@ -132,4 +141,4 @@ const UserRegister = () => {
   );
 };
 
-export default UserRegister;
+export default RegisterForm;
