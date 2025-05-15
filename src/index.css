@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 @theme {
   --color-primary-bg: #f5eeea;
@@ -15,9 +16,6 @@
   --color-footer-bg: #23243c;
   --color-footer-text: #9d8f9c;
 
-  /* Text color */
-  ---color-fontColor-1: #ecd1c2;
-
   /* new theme */
   --color-cream-white: #f5eeea;
   --color-dark-navy: #23243c;
@@ -27,4 +25,16 @@
 
   /* text */
   --text-basic: 16px;
+}
+.swiper-wrapper {
+  padding-bottom: 35px;
+}
+
+/* index.css or a global CSS file */
+:root {
+  --swiper-pagination-color: #23243c;
+  --swiper-pagination-bullet-inactive-color: #fff;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-size: 10px;
+  --swiper-pagination-bullet-horizontal-gap: 6px;
 }

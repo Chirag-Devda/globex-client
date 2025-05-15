@@ -33,7 +33,16 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUser());
+    const pathsToExclude = [
+      "/user/login",
+      "/user/register",
+      "/owner/register",
+      "/owner/login",
+    ];
+
+    if (!pathsToExclude.includes(window.location.pathname)) {
+      dispatch(fetchUser());
+    }
   }, []);
 
   return (

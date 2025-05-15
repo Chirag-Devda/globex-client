@@ -1,5 +1,4 @@
 // 1. React and Hooks
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 // 2. Third-party libraries
@@ -9,19 +8,15 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
 // 3. API functions
-import { LoginRequest } from "../../api/query/auth/authApi";
+import { LoginRequest } from "../../api/authApi";
 
 // 4. Components
-import InputField from "../../components/common/InputFeilds";
+import InputField from "../../components/ui/InputFeilds";
 import { login } from "../../features/auth/authSlice";
 
 const Login = ({ role }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    toast.error("Please Login !");
-  }, []);
 
   const {
     register,
@@ -34,8 +29,7 @@ const Login = ({ role }) => {
     mutationKey: [`Login-${role}`],
     mutationFn: LoginRequest,
     onSuccess: (data) => {
-      console.log(data.data[`${role}`]);
-      dispatch(login(data.data[`${role}`]));
+      dispatch(login(data.currentUser));
       toast.success(data.message);
       navigate("/");
     },
@@ -62,7 +56,7 @@ const Login = ({ role }) => {
             label="Email"
             type="email"
             name="email"
-            autoComplete="on"
+            autoComplete="new-password"
             register={register}
             errors={errors}
             placeholder="Enter your email"

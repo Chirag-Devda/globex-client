@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loadUser } from "../../api/query/auth/authApi";
+import { loadUser } from "../../api/authApi";
 
 const initialState = {
   user: { role: "user" },

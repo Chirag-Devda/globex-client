@@ -10,8 +10,8 @@ import { toast } from "react-toastify";
 // 3. API functions
 
 // 4. Components
-import InputField from "../../components/common/InputFeilds";
-import { RegisterRequest } from "../../api/query/auth/authApi";
+import InputField from "../../components/ui/InputFeilds";
+import { RegisterRequest } from "../../api/authApi";
 import { useDispatch } from "react-redux";
 import { login } from "../../features/auth/authSlice";
 
@@ -31,8 +31,8 @@ const RegisterForm = ({ role }) => {
     mutationKey: [`Register-${role}`],
     mutationFn: RegisterRequest,
     onSuccess: (data) => {
-      console.log(data.data[`${role}`]);
-      dispatch(login(data.data[`${role}`]));
+      console.log(data.currentUser);
+      dispatch(login(data.currentUser));
       toast.success(data.message);
       navigate("/");
     },
@@ -91,6 +91,7 @@ const RegisterForm = ({ role }) => {
             label="Password"
             type="password"
             name="password"
+            autoComplete="new-password"
             register={register}
             errors={errors}
             placeholder="Enter your password"
@@ -106,6 +107,7 @@ const RegisterForm = ({ role }) => {
             label="Confirm Password"
             type="password"
             name="confirmPassword"
+            autoComplete="new-password"
             register={register}
             errors={errors}
             placeholder="Confirm your password"
