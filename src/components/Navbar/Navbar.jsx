@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
-import {
-  FaHeart,
-  FaSearch,
-  FaShoppingBag,
-  FaShoppingCart,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
-import { IoPersonSharp } from "react-icons/io5";
 import { PiGlobeLight } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { LogoutRequest } from "../../api/authApi";
 import { logout } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
-import { category } from "../../constants";
-import { Link } from "react-router-dom";
 import NavbarDropdown from "./NavbarDropdown";
+import NavbarCategory from "./NavbarCategory";
 
 const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -58,30 +50,7 @@ const Navbar = () => {
       </div>
 
       {/* Category */}
-      <div className="mr-44 relative">
-        {category.map((category) => (
-          <div key={category.id} className="dropdown dropdown-hover space-x-6">
-            <Link to={category.link} className="text-xl hover:underline">
-              {category.name}
-            </Link>
-            <div className="dropdown-content p-6  gap-10 flex flex-wrap w-[50vw] bg-white rounded-box z-1 shadow-sm">
-              {category.products.map((product, i) => (
-                <ul className="flex flex-col" key={i}>
-                  <h1 className="text-amber-400 text-sm cursor-default underline font-semibold">
-                    {product.headCategory}
-                  </h1>
-                  {product.list.map((list, i) => (
-                    <li key={i} className="text-black ">
-                      <a href={list.link}>{list.name}</a>
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
+      <NavbarCategory />
       {/* Search Bar */}
       <div className="relative flex items-center max-w-[30vw]  flex-1">
         <div className="absolute left-4 text-gray-500">
